@@ -22,8 +22,9 @@ def get_proxy():
     while(1):
         try:
             user_agent = {'User-agent': 'Mozilla/5.0'}
+            proxy=['103.76.189.187:8080']
             url = 'http://pubproxy.com/api/proxy?country=IN&limit=20&https=True&user_agent=true'
-            resp = requests.get(url=url,headers=user_agent)
+            resp = requests.get(url=url,headers=user_agent,proxy=proxy)
             data = resp.json()
             time.sleep(3)
             for proxy in data['data']:
