@@ -27,13 +27,19 @@ def get_proxy():
         time.sleep(3)
         for proxy in data['data']:
             proxies.append(proxy['ipPort'])
+    except Exception :
+        pass
 
-    except Exception as e:
-        i=1
-        try:
-            proxies=proxies+spy_proxy()
-        except Exception as e:
-            proxies=proxies+fate_proxy()
+    try:
+        proxies=proxies+spy_proxy()
+    except Exception :
+        pass
+        
+    try:
+        proxies=proxies+fate_proxy()
+    except Exception:
+        pass
+
     return proxies
 
 def fate_proxy():
