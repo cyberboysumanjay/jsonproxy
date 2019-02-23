@@ -19,22 +19,23 @@ def push_to_git():
 
 def get_proxy():
     proxies=[]
-    try:
-        user_agent = {'User-agent': 'Mozilla/5.0'}
-        url = 'http://pubproxy.com/api/proxy?country=IN&limit=20&https=True&user_agent=true'
-        resp = requests.get(url=url,headers=user_agent)
-        data = resp.json()
-        time.sleep(3)
-        for proxy in data['data']:
-            proxies.append(proxy['ipPort'])
-    except Exception :
-        pass
+    while(1):
+        try:
+            user_agent = {'User-agent': 'Mozilla/5.0'}
+            url = 'http://pubproxy.com/api/proxy?country=IN&limit=20&https=True&user_agent=true'
+            resp = requests.get(url=url,headers=user_agent)
+            data = resp.json()
+            time.sleep(3)
+            for proxy in data['data']:
+                proxies.append(proxy['ipPort'])
+        except Exception :
+            break
 
     try:
         proxies=proxies+spy_proxy()
     except Exception :
         pass
-        
+
     try:
         proxies=proxies+fate_proxy()
     except Exception:
