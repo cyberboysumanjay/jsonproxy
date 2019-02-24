@@ -19,26 +19,27 @@ def push_to_git():
 
 def get_proxy():
     proxies=[]
-    proxy= ["103.69.45.68:61011", "103.74.220.47:44073", "43.224.8.114:50333", "14.142.145.156:80", "103.206.130.118:8080"]
+    proxy= [ "103.74.220.47:44073", "43.224.8.114:50333", "14.142.145.156:80", "103.206.130.118:8080"]
     i,j=0,0
-    for a in range(len(proxy)):
-        for p in proxy:
-            user_agent = {'User-agent': 'Mozilla/5.0'}
-            url = 'http://pubproxy.com/api/proxy?country=IN&limit=20&https=True&user_agent=true'
-            while(j!=1):
-                try:
-                    j=0
-                    resp = requests.get(url=url,headers=user_agent,proxies={"http": p, "https": p})
-                    data = resp.json()
-                    time.sleep(2.1)
-                    for proxy in data['data']:
-                        proxies.append(proxy['ipPort'])
-                    print('Length of Proxy till '+str(i)+'th attempt is ',len(proxies))
-                except Exception as e:
-                    print('Skipped proxy '+str(p)+" "+str(i)+' time')
-                    j=1
-                finally:
-                    i=i+1
+    for p in proxy:
+        user_agent = {'User-agent': 'Mozilla/5.0'}
+        url = 'http://pubproxy.com/api/proxy?country=IN&limit=20&https=True&user_agent=true'
+        for b in range(60):
+            try:
+                j=0
+                resp = requests.get(url=url,headers=user_agent,proxies={"http": p, "https": p})
+                data = resp.json()
+                time.sleep(2.1)
+                for proxy in data['data']:
+                    proxies.append(proxy['ipPort'])
+                print('Length of Proxy till '+str(i)+'th attempt is ',len(proxies))
+            except Exception as e:
+                print_exc()
+                print('Skipped proxy '+str(p)+" "+str(i)+' time')
+                break
+            finally:
+                i=i+1
+
     try:
         print("Entered Spy proxy")
         proxies=proxies+spy_proxy()
@@ -87,4 +88,4 @@ proxy_json={'data':get_proxy()}
 import json
 with open('proxy.json', 'w') as outfile:
     json.dump(proxy_json, outfile)
-push_to_git()
+#push_to_git()
