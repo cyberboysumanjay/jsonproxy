@@ -63,7 +63,7 @@ def get_proxy():
 
     for p in proxy:
         url = 'http://pubproxy.com/api/proxy?country=IN&limit=20&https=True&user_agent=true'
-        while(len(proxies)<5000):
+        while(len(proxies)<1000):
             try:
                 j=0
                 resp = requests.get(url=url,headers=user_agent,proxies={"http": p, "https": p})
@@ -81,7 +81,7 @@ def get_proxy():
                 i=i+1
 
 
-    return proxies
+    return list(set(proxies))
 
 def fate_proxy():
     resp=requests.get('https://raw.githubusercontent.com/fate0/proxylist/master/proxy.list')
