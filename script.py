@@ -1,9 +1,12 @@
+from gevent import monkey
+monkey.patch_all()
 import time
 import getproxy
 import json,requests,urllib.request
 from traceback import print_exc
 from ast import literal_eval
 import pprint
+
 
 def set_proxy():
     resp=requests.get('https://raw.githubusercontent.com/fate0/proxylist/master/proxy.list')
