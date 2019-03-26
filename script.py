@@ -2,10 +2,16 @@ from gevent import monkey
 monkey.patch_all()
 import time
 import getproxy
-import json,requests,urllib.request
+import requests
+import urllib.request
 from traceback import print_exc
 from ast import literal_eval
 import pprint
+from datetime import datetime
+from pytz import timezone
+import schedule
+import json
+
 
 
 def set_proxy():
@@ -31,7 +37,9 @@ def push_to_git():
     #Import dependencies
     from subprocess import call
     #Commit Message
-    commit_message = "Updating json files"
+    india = timezone('Asia/Kolkata')
+    in_time = datetime.now(india)
+    commit_message= ("Updated at "+ str(in_time.strftime('%H-%M-%S'))+"IST")
     #Stage the file
     call('git add .', shell = True)
     # Add your commit
@@ -66,7 +74,7 @@ def get_proxy():
 
     for p in proxy:
         url = 'http://pubproxy.com/api/proxy?country=IN&limit=20&https=True&user_agent=true'
-        while(len(proxies)<1000):
+        while(len(proxies)<100):
             try:
                 j=0
                 resp = requests.get(url=url,headers=user_agent,proxies={"http": p, "https": p})
@@ -116,8 +124,13 @@ def spy_proxy():
             l.append(i)
     return l
 
-proxy_json={'data':get_proxy()}
-import json
-with open('proxy.json', 'w') as outfile:
-    json.dump(proxy_json, outfile)
-push_to_git()
+def main():
+    proxy_json={'data':get_proxy()}
+    with open('proxy.json', 'w') as outfile:
+        json.dump(proxy_json, outfile)
+    push_to_git()
+
+schedule.every(20).minutes.do(main).run()
+while True:
+    schedule.run_pending()
+    time.sleep(1)
