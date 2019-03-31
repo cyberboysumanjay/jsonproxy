@@ -74,7 +74,7 @@ def get_proxy():
 
     for p in proxy:
         url = 'http://pubproxy.com/api/proxy?country=IN&limit=20&https=True&user_agent=true'
-        while(len(proxies)<200):
+        while(len(proxies)<100):
             try:
                 j=0
                 resp = requests.get(url=url,headers=user_agent,proxies={"http": p, "https": p})
