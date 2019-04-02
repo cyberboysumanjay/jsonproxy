@@ -12,8 +12,6 @@ from pytz import timezone
 import schedule
 import json
 
-
-
 def set_proxy():
     resp=requests.get('https://raw.githubusercontent.com/fate0/proxylist/master/proxy.list')
     a=((resp.text).split('\n'))
@@ -50,12 +48,6 @@ def push_to_git():
 def get_proxy():
     proxies=[]
     user_agent = {'User-agent': 'Mozilla/5.0'}
-    '''
-    proxy_url='http://sumanjay.ooo/jsonproxy/proxy.json'
-    resp = requests.get(url=proxy_url,headers=user_agent)
-    proxy=resp.json()
-    proxy=proxy['data']
-    '''
     proxy=set_proxy()
     i,j=0,0
 
@@ -74,7 +66,7 @@ def get_proxy():
 
     for p in proxy:
         url = 'http://pubproxy.com/api/proxy?country=IN&limit=20&https=True&user_agent=true'
-        while(len(proxies)<100):
+        while(len(proxies)<200):
             try:
                 j=0
                 resp = requests.get(url=url,headers=user_agent,proxies={"http": p, "https": p})
@@ -85,13 +77,10 @@ def get_proxy():
                 print('Length of Proxy till '+str(i)+'th attempt is ',len(proxies))
             except Exception as e:
                 print(resp.text)
-                #print_exc()
                 print('Skipped proxy '+str(p)+" "+str(i)+' time')
                 break
             finally:
                 i=i+1
-
-
     return list(set(proxies))
 
 def fate_proxy():
@@ -107,7 +96,6 @@ def fate_proxy():
     for i in p_list:
         if i['country']=='IN':
             np_list.append(i)
-    #print(len(np_list))
     proxy=[]
     for i in np_list:
         proxy.append((str(i['host'])+':'+str(i['port'])))
@@ -124,13 +112,11 @@ def spy_proxy():
             l.append(i)
     return l
 
-def main():
+def start():
     proxy_json={'data':get_proxy()}
     with open('proxy.json', 'w') as outfile:
         json.dump(proxy_json, outfile)
     push_to_git()
 
-schedule.every(20).minutes.do(main).run()
-while True:
-    schedule.run_pending()
-    time.sleep(1)
+
+start()
