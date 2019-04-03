@@ -7,7 +7,7 @@
   - PubProxy
   - SpyProxy
   - GatherProxy
-
+  - GetProxyList
 
 #### To Update the proxy I just run this command:
 
