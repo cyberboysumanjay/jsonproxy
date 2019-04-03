@@ -54,19 +54,25 @@ def get_proxy():
     try:
         print("Entered Spy proxy")
         proxies=proxies+spy_proxy()
-        print("Length of spy Proxy is ",len(proxies))
+        print("Length after spy Proxy is ",len(proxies))
     except Exception :
         pass
     try:
         print('Entered Fate Proxy')
         proxies=proxies+fate_proxy()
-        print("Length of fate Proxy is ",len(proxies))
+        print("Length after fate Proxy is ",len(proxies))
+    except Exception:
+        pass
+    try:
+        print("Entered gatherproxy")
+        proxies=proxies+gatherproxy()
+        print("Length after gatherproxy is ",len(proxies))
     except Exception:
         pass
 
     for p in proxy:
         url = 'http://pubproxy.com/api/proxy?country=IN&limit=20&https=True&user_agent=true'
-        while(len(proxies)<200):
+        while(len(proxies)<100):
             try:
                 j=0
                 resp = requests.get(url=url,headers=user_agent,proxies={"http": p, "https": p})
@@ -81,7 +87,24 @@ def get_proxy():
                 break
             finally:
                 i=i+1
+
     return list(set(proxies))
+
+def gatherproxy():
+    r=requests.get('http://www.gatherproxy.com/proxylist/country/?c=india')
+    a=str(r.text)
+    b=(a.split('gp.insertPrx('))
+    l,pl=[],[]
+    for i in b:
+      if ');' in i:
+        i=i.split(');')[0]
+        l.append(i)
+    for i in l:
+      d=json.loads(i)
+      port=i = int(d['PROXY_PORT'], 16)
+      p=(str(d['PROXY_IP']+":"+str(port)))
+      pl.append(p)
+    return pl
 
 def fate_proxy():
     resp=requests.get('https://raw.githubusercontent.com/fate0/proxylist/master/proxy.list')
