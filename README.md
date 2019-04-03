@@ -33,6 +33,7 @@ This work wouldn't have been possible without
 | Spyproxy | http://spys.one/en/ |
 | PubProxy | http://pubproxy.com |
 | GatherProxy | http://www.gatherproxy.com |
+| GetProxyList | https://getproxylist.com/ |
 
 
 

@@ -52,6 +52,11 @@ def get_proxy():
     i,j=0,0
 
     try:
+        print("Entered getproxylist")
+        proxies=proxies+getproxylist()
+    except Exception:
+        pass
+    try:
         print("Entered Spy proxy")
         proxies=proxies+spy_proxy()
         print("Length after spy Proxy is ",len(proxies))
@@ -105,6 +110,13 @@ def gatherproxy():
       p=(str(d['PROXY_IP']+":"+str(port)))
       pl.append(p)
     return pl
+
+def getproxylist():
+    url='https://api.getproxylist.com/proxy?country[]=IN&lastTested=600'
+    p=requests.get(url).json()
+    l=[]
+    l.append(str(p['ip'])+':'+str(p['port']))
+    return l
 
 def fate_proxy():
     resp=requests.get('https://raw.githubusercontent.com/fate0/proxylist/master/proxy.list')
