@@ -8,6 +8,7 @@
   - SpyProxy
   - GatherProxy
   - GetProxyList
+  - ProxyScrape
 
 #### To Update the proxy I just run this command:
 
@@ -34,6 +35,7 @@ This work wouldn't have been possible without
 | PubProxy | http://pubproxy.com |
 | GatherProxy | http://www.gatherproxy.com |
 | GetProxyList | https://getproxylist.com/ |
+| ProxyScrape | https://proxyscrape.com/ |
 
 
 
