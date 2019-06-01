@@ -16,7 +16,7 @@ import json
 def proxyscraper():
     collector = proxyscrape.create_collector('default', 'http')
     proxy = collector.get_proxy({'country': 'india'})
-    return (str(proxy.host)+":"+str(proxy.port))
+    return (list(str(proxy.host)+":"+str(proxy.port)))
 
 def set_proxy():
     resp=requests.get('https://raw.githubusercontent.com/fate0/proxylist/master/proxy.list')
@@ -60,6 +60,7 @@ def get_proxy():
     try:
         print("Entered getproxylist")
         proxies=proxies+getproxylist()
+        print("Length after getproxylist Proxy is ",len(proxies))
     except Exception:
         pass
     try:
@@ -78,13 +79,13 @@ def get_proxy():
         print("Entered gatherproxy")
         proxies=proxies+gatherproxy()
         print("Length after gatherproxy is ",len(proxies))
-    except Exception:
+    except Exception as e:
         pass
     try:
         print("Entered Proxyscrape")
         proxies=proxies+proxyscraper()
         print("Length after proxyscrape is ",len(proxies))
-    except Exception:
+    except Exception as e:
         pass
 
     for p in proxy:
@@ -116,6 +117,7 @@ def gatherproxy():
       if ');' in i:
         i=i.split(');')[0]
         l.append(i)
+    l.pop(0)
     for i in l:
       d=json.loads(i)
       port=i = int(d['PROXY_PORT'], 16)
