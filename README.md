@@ -10,6 +10,12 @@
   - GetProxyList
   - ProxyScrape
 
+#### First of all install all the requirements:
+
+```
+$ sudo -H pip3 install -r requirements.txt
+```
+
 #### To Update the proxy I just run this command:
 
 ```
