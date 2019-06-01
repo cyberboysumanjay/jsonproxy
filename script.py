@@ -2,6 +2,7 @@ from gevent import monkey
 monkey.patch_all()
 import time
 import getproxy
+import proxyscrape
 import requests
 import urllib.request
 from traceback import print_exc
@@ -11,6 +12,11 @@ from datetime import datetime
 from pytz import timezone
 import schedule
 import json
+
+def proxyscraper():
+    collector = proxyscrape.create_collector('default', 'http')
+    proxy = collector.get_proxy({'country': 'india'})
+    return (str(proxy.host)+":"+str(proxy.port))
 
 def set_proxy():
     resp=requests.get('https://raw.githubusercontent.com/fate0/proxylist/master/proxy.list')
@@ -72,6 +78,12 @@ def get_proxy():
         print("Entered gatherproxy")
         proxies=proxies+gatherproxy()
         print("Length after gatherproxy is ",len(proxies))
+    except Exception:
+        pass
+    try:
+        print("Entered Proxyscrape")
+        proxies=proxies+proxyscraper()
+        print("Length after proxyscrape is ",len(proxies))
     except Exception:
         pass
 
@@ -152,6 +164,5 @@ def start():
     with open('proxy.json', 'w') as outfile:
         json.dump(proxy_json, outfile)
     push_to_git()
-
 
 start()
