@@ -166,15 +166,13 @@ def spy_proxy():
     return l
 
 def start():
-    proxies=get_proxy()
     india = timezone('Asia/Kolkata')
     in_time = datetime.now(india)
-    print("Updated at "+ str(in_time.strftime('%H-%M-%S'))+" IST")
-    print("Length of Proxy ",len(proxies)
-    proxy_json={'data':proxies}
+    proxy_json={'data':get_proxy()}
     with open('proxy.json', 'w') as outfile:
         json.dump(proxy_json, outfile)
-
+    print("Updated at "+ str(in_time.strftime('%H-%M-%S'))+" IST")
+start()
 schedule.every(15).minutes.do(start)
 while True:
     # Checks whether a scheduled task is pending to run or not
