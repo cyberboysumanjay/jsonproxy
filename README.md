@@ -1,6 +1,6 @@
 # Indian Proxy [Updated in JSON]
 
-### Updated Indian Proxies from various sources
+### Indian Proxies from various sources updated every 15 minutes!
 
 #### Currently Proxies are scraped from:
   - Fate0
@@ -9,6 +9,7 @@
   - GatherProxy
   - GetProxyList
   - ProxyScrape
+  - Free-Proxy-List
 
 #### First of all install all the requirements:
 
@@ -16,20 +17,15 @@
 $ sudo -H pip3 install -r requirements.txt
 ```
 
-#### To Update the proxy I just run this command:
+#### To Update the proxy yourself just run this command:
 
 ```
 $ python3 script.py
 ```
 
-#### To print the latest proxies:
-
-```
-$ python3 print_proxy.py
-```
-
 #### TODO:
- - Setup Automatic Update of proxies using Raspberry Pi
+ - ~~Setup Automatic Update of proxies using Raspberry Pi~~ (Automated and Deployed on Heroku instead of Pi)
+
 ### Credits
 
 This work wouldn't have been possible without
@@ -42,6 +38,8 @@ This work wouldn't have been possible without
 | GatherProxy | http://www.gatherproxy.com |
 | GetProxyList | https://getproxylist.com/ |
 | ProxyScrape | https://proxyscrape.com/ |
+| Free-Proxy-List | https://free-proxy-list.net/ |
+| Proxy Daily | https://proxy-daily.com/ |
 
 
 
