@@ -1,0 +1,11 @@
+{
+  "name": "JsonProxy",
+  "description": "List of Indian Proxies Updated every 15 minutes.",
+  "keywords": [
+    "flask",
+    "python",
+    "proxy",
+    "india"
+  ],
+  "repository": "https://github.com/cyberboysumanjay/jsonproxy"
+}
