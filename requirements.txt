@@ -1,9 +1,12 @@
 requests
 json
-gevent
 schedule
-proxyscrape
-getproxy
+beautifulsoup4
 datetime
 pprint
 pytz
+Flask
+gunicorn
+httplib2
+bs4
+lxml
