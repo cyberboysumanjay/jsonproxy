@@ -1,22 +1,42 @@
-from gevent import monkey
-monkey.patch_all()
 import time
-import getproxy
-import proxyscrape
 import requests
 import urllib.request
 from traceback import print_exc
-from ast import literal_eval
 import pprint
 from datetime import datetime
 from pytz import timezone
 import schedule
 import json
+from bs4 import BeautifulSoup as bs
+def dailyProxy():
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:49.0) Gecko/20100101 Firefox/49.0'
+    }
+    url="https://proxy-daily.com/"
+    source=requests.get(url).text
+    soup=bs(source,'html.parser')
+    ans = soup.findAll('div', {'class' : 'centeredProxyList freeProxyStyle'})
+    #print(type(ans[0].text))
+    l=ans[0].text.splitlines()
+    return l
 
-def proxyscraper():
-    collector = proxyscrape.create_collector('default', 'http')
-    proxy = collector.get_proxy({'country': 'india'})
-    return (list(str(proxy.host)+":"+str(proxy.port)))
+def free_proxy_list():
+    required_url = "https://free-proxy-list.net/"
+    response = requests.get(required_url )
+    soup = bs(response.text, "html.parser")
+    listing_dict={}
+    i=0
+    listing=[]
+    table =  soup.find("table", id = "proxylisttable")
+    k= table.find_all("tbody")
+    for tbody in k:
+    	for rows in tbody.find_all("tr"):
+    		if rows.find_all("td")[3].get_text() == "India":
+    			ip_address = rows.find_all("td")[0].get_text()
+    			host = rows.find_all("td")[1].get_text()
+    			str1 = ip_address + ":" + host
+    			listing.append(str1)
+    return listing
 
 def set_proxy():
     resp=requests.get('https://raw.githubusercontent.com/fate0/proxylist/master/proxy.list')
@@ -58,34 +78,35 @@ def get_proxy():
     i,j=0,0
 
     try:
-        print("Entered getproxylist")
+        #print("Entered getproxylist")
         proxies=proxies+getproxylist()
-        print("Length after getproxylist Proxy is ",len(proxies))
+        #print("Length after getproxylist Proxy is ",len(proxies))
     except Exception:
         pass
     try:
-        print("Entered Spy proxy")
+        #print("Entered Spy proxy")
         proxies=proxies+spy_proxy()
-        print("Length after spy Proxy is ",len(proxies))
+        #print("Length after spy Proxy is ",len(proxies))
     except Exception :
         pass
     try:
-        print('Entered Fate Proxy')
+        #print('Entered Fate Proxy')
         proxies=proxies+fate_proxy()
-        print("Length after fate Proxy is ",len(proxies))
+        #print("Length after fate Proxy is ",len(proxies))
     except Exception:
         pass
     try:
-        print("Entered gatherproxy")
-        proxies=proxies+gatherproxy()
-        print("Length after gatherproxy is ",len(proxies))
+        #print("Entered FreeProxyList")
+        proxies=proxies+free_proxy_list()
+        #print("Length after freeproxy is ",len(proxies))
     except Exception as e:
         pass
     try:
-        print("Entered Proxyscrape")
-        proxies=proxies+proxyscraper()
-        print("Length after proxyscrape is ",len(proxies))
+        #print("Entered DailyProxy")
+        proxies=proxies+dailyProxy()
+        #print("Length after Daily Proxies is ",len(proxies))
     except Exception as e:
+        print("Daily Proxy",e)
         pass
 
     for p in proxy:
@@ -107,23 +128,6 @@ def get_proxy():
                 i=i+1
 
     return list(set(proxies))
-
-def gatherproxy():
-    r=requests.get('http://www.gatherproxy.com/proxylist/country/?c=india')
-    a=str(r.text)
-    b=(a.split('gp.insertPrx('))
-    l,pl=[],[]
-    for i in b:
-      if ');' in i:
-        i=i.split(');')[0]
-        l.append(i)
-    l.pop(0)
-    for i in l:
-      d=json.loads(i)
-      port=i = int(d['PROXY_PORT'], 16)
-      p=(str(d['PROXY_IP']+":"+str(port)))
-      pl.append(p)
-    return pl
 
 def getproxylist():
     url='https://api.getproxylist.com/proxy?country[]=IN&lastTested=600'
@@ -162,9 +166,17 @@ def spy_proxy():
     return l
 
 def start():
-    proxy_json={'data':get_proxy()}
+    proxies=get_proxy()
+    india = timezone('Asia/Kolkata')
+    in_time = datetime.now(india)
+    print("Updated at "+ str(in_time.strftime('%H-%M-%S'))+" IST")
+    print("Length of Proxy ",len(proxies)
+    proxy_json={'data':proxies}
     with open('proxy.json', 'w') as outfile:
         json.dump(proxy_json, outfile)
-    push_to_git()
 
-start()
+schedule.every(15).minutes.do(start)
+while True:
+    # Checks whether a scheduled task is pending to run or not
+    schedule.run_pending()
+    time.sleep(1)
