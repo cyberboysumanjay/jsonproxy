@@ -1,5 +1,4 @@
 requests
-json
 schedule
 beautifulsoup4
 datetime
