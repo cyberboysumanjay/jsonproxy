@@ -171,6 +171,7 @@ def start():
     proxy_json={'data':get_proxy()}
     with open('proxy.json', 'w') as outfile:
         json.dump(proxy_json, outfile)
+    push_to_git()
     print("Updated at "+ str(in_time.strftime('%H-%M-%S'))+" IST")
 start()
 schedule.every(15).minutes.do(start)
