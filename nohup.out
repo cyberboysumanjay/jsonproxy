@@ -5,3 +5,8 @@
 Warning: Permanently added the RSA host key for IP address '140.82.113.4' to the list of known hosts.
 To github.com:cyberboysumanjay/jsonproxy.git
    4d57f1b..d0b77ff  master -> master
+[master c514fa6] Updated at 00-48-43 IST
+ 2 files changed, 8 insertions(+), 1 deletion(-)
+ rewrite proxy.json (98%)
+To github.com:cyberboysumanjay/jsonproxy.git
+   d0b77ff..c514fa6  master -> master
