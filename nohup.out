@@ -92,3 +92,8 @@ To github.com:cyberboysumanjay/jsonproxy.git
  rewrite proxy.json (96%)
 To github.com:cyberboysumanjay/jsonproxy.git
    7feaca7..81c35bf  master -> master
+[master d886646] Updated at 05-04-56 IST
+ 2 files changed, 6 insertions(+), 1 deletion(-)
+ rewrite proxy.json (99%)
+To github.com:cyberboysumanjay/jsonproxy.git
+   81c35bf..d886646  master -> master
