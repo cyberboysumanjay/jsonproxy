@@ -1,0 +1,7 @@
+[master d0b77ff] Updated at 00-33-39 IST
+ 2 files changed, 1 insertion(+), 1 deletion(-)
+ create mode 100644 nohup.out
+ rewrite proxy.json (100%)
+Warning: Permanently added the RSA host key for IP address '140.82.113.4' to the list of known hosts.
+To github.com:cyberboysumanjay/jsonproxy.git
+   4d57f1b..d0b77ff  master -> master
