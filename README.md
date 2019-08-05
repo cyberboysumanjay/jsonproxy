@@ -24,7 +24,7 @@ $ python3 script.py
 ```
 
 #### TODO:
- - ~~Setup Automatic Update of proxies using Raspberry Pi~~ (Automated and Deployed on Heroku instead of Pi)
+ - Setup Automatic Update of proxies using Raspberry Pi ~~(Automated and Deployed on Heroku instead of Pi)~~
 
 ### Credits
 
